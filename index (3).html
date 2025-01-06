@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Query Builder</title>
+    <style>
+        body {
+            background-color: #000;
+            color: #fff;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background-color: #111;
+            padding: 10px 20px;
+        }
+
+        .logo {
+            height: 50px;
+        }
+
+        .title {
+            font-size: 24px;
+            font-weight: bold;
+            margin: 0 auto;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            padding: 20px;
+        }
+
+        .left-panel, .right-panel {
+            width: 48%;
+            background-color: #222;
+            padding: 20px;
+            border-radius: 8px;
+        }
+
+        h2 {
+            font-size: 18px;
+            margin-bottom: 10px;
+            border-bottom: 1px solid #444;
+            padding-bottom: 5px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #444;
+            border-radius: 4px;
+            background-color: #333;
+            color: #fff;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        .btn:hover {
+            background-color: #0056b3;
+        }
+
+        .output-box {
+            background-color: #333;
+            padding: 10px;
+            border-radius: 4px;
+            word-wrap: break-word;
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <img src="logo.png" alt="Logo" class="logo">
+        <h1 class="title">Query Builder</h1>
+    </div>
+
+    <div class="container">
+        <!-- Left Panel -->
+        <div class="left-panel">
+            <h2>Input Parameters</h2>
+            <div class="form-group">
+                <label for="access-token">Access Token</label>
+                <input type="text" id="access-token" placeholder="Enter Access Token">
+            </div>
+            <div class="form-group">
+                <label for="start-date">Start Date</label>
+                <input type="date" id="start-date">
+            </div>
+            <div class="form-group">
+                <label for="end-date">End Date</label>
+                <input type="date" id="end-date">
+            </div>
+            <div class="form-group">
+                <label for="curve-type">Curve Type</label>
+                <select id="curve-type">
+                    <option value="energy">Energy</option>
+                    <option value="non-energy">Non-Energy</option>
+                    <option value="ptc">PTC</option>
+                    <option value="matrix">Matrix</option>
+                    <option value="rec">REC</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="iso">ISO</label>
+                <select id="iso">
+                    <option value="ercot">ERCOT</option>
+                    <option value="nyiso">NYISO</option>
+                    <option value="miso">MISO</option>
+                    <option value="pjm">PJM</option>
+                    <option value="isone">ISO-NE</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="strip">Strip</label>
+                <select id="strip">
+                    <option value="standardized">Standardized</option>
+                    <option value="unstandardized">Unstandardized</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="idcob">IDCOB</label>
+                <select id="idcob">
+                    <option value="latestall">Latest All</option>
+                    <option value="intradayonly">Intraday Only</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="file-type">File Type</label>
+                <select id="file-type">
+                    <option value="csv">CSV</option>
+                    <option value="xlsx">XLSX</option>
+                    <option value="json">JSON</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="operating-day">Operating Day (Optional)</label>
+                <input type="date" id="operating-day">
+            </div>
+            <div class="form-group">
+                <label for="operating-day-end">Operating Day End (Optional)</label>
+                <input type="date" id="operating-day-end">
+            </div>
+            <button class="btn" onclick="generateFunctionCall()">Generate Function Call</button>
+        </div>
+
+        <!-- Right Panel -->
+        <div class="right-panel">
+            <h2>Generated Function Call</h2>
+            <div class="output-box" id="function-output">
+                <!-- Generated function call will appear here -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function generateFunctionCall() {
+            const accessToken = document.getElementById("access-token").value;
+            const startDate = document.getElementById("start-date").value;
+            const endDate = document.getElementById("end-date").value;
+            const curveType = document.getElementById("curve-type").value;
+            const iso = document.getElementById("iso").value;
+            const strip = document.getElementById("strip").value;
+            const idcob = document.getElementById("idcob").value;
+            const fileType = document.getElementById("file-type").value;
+            const operatingDay = document.getElementById("operating-day").value;
+            const operatingDayEnd = document.getElementById("operating-day-end").value;
+
+            const functionCall = `get_data("${accessToken}", "${startDate}", "${endDate}", "${operatingDay}", "${operatingDayEnd}", "${curveType}", "${iso}", "${strip}", "${idcob}", "${fileType}")`;
+            document.getElementById("function-output").textContent = functionCall;
+        }
+    </script>
+</body>
+</html>
